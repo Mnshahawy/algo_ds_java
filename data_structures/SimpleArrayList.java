@@ -11,7 +11,7 @@ public class SimpleArrayList<E> implements Iterable<E>{
     private int size;
     private E[] items;
 
-    /*
+    /**
     * Create an empty <code>SimpleArrayList</code> with the default initial
     * capacity.
     */
@@ -19,7 +19,7 @@ public class SimpleArrayList<E> implements Iterable<E>{
         this(DEFAULT_CAPACITY);
     }
 
-    /*
+    /**
     * Create an empty <code>SimpleArrayList</code> with the specified initial
     * capacity.
     * @param capacity the initial capacity
@@ -45,6 +45,7 @@ public class SimpleArrayList<E> implements Iterable<E>{
     *
     * @param minimumCapacity the new capacity
     * @see #capacity()
+    * Credit to GNU class path implementation 
     */
     @SuppressWarnings("unchecked")
     public void ensureCapacity(int minimumCapacity){
@@ -57,18 +58,36 @@ public class SimpleArrayList<E> implements Iterable<E>{
         }
     }
 
+    /**
+    * Get the capacity of <code>SimpleArrayList</code>.
+    * @return capacity of the array list
+    */
     public int capacity(){
         return items.length;
     }
-
+    /**
+    * Get the elements' count in a <code>SimpleArrayList</code>.
+    * @return count of elements in the ArrayList
+    */
     public int size(){
         return size;
     }
-
+    /**
+    * Add an element to a <code>SimpleArrayList</code>
+    * @param element item to be added
+    */
     public void add(E element){
         add(size, element);
     }
-
+    /**
+    * Add an element to a <code>SimpleArrayList</code> at the specified index
+    * if the specified index is beyond the last item in the ArrayList, the item
+    * is appended to the end of the ArrayList.
+    * if an item exists in the specified index, it will be overwritten.
+    * @param index the index where to add the element
+    * @param element the item to be added
+    * @throws ArrayIndexOutOfBoundsException if index is negative
+    */
     public void add(int index, E element){
         //Reject negative index
         if(index < 0)
@@ -84,13 +103,27 @@ public class SimpleArrayList<E> implements Iterable<E>{
         items[index] = element;
         size++;
     }
-
+    /**
+    * Get an element from a <code>SimpleArrayList</code> using its index
+    * @param index the index where the item is located
+    * @return the requested element
+    * @throws ArrayIndexOutOfBoundsException if index is negative or greater than
+    * the size of the ArrayList
+    */
     public E get(int index){
         if(index < 0 || index >= size)
             throw new ArrayIndexOutOfBoundsException();
         return items[index];
     }
 
+    /**
+    * Replace an element in a <code>SimpleArrayList</code> at the specified index
+    * @param index the index where to add the element
+    * @param newElement the new value for the item
+    * @return the replaced element
+    * @throws ArrayIndexOutOfBoundsException if index is negative or greater than
+    * the size of the ArrayList
+    */
     public E set(int index, E newElement){
         if(index < 0 || index >= size)
             throw new ArrayIndexOutOfBoundsException();
@@ -99,6 +132,13 @@ public class SimpleArrayList<E> implements Iterable<E>{
         return old;
     }
 
+    /**
+    * Remove an element from a <code>SimpleArrayList</code> at the specified index
+    * @param index the index where the item is located
+    * @return the removed element
+    * @throws ArrayIndexOutOfBoundsException if index is negative or greater than
+    * the size of the ArrayList
+    */
     public E remove(int index){
         if(index < 0 || index >= size)
             throw new ArrayIndexOutOfBoundsException();
@@ -111,7 +151,12 @@ public class SimpleArrayList<E> implements Iterable<E>{
         size--;
         return deletedItem;
     }
-    
+    /**
+    * Remove an element from a <code>SimpleArrayList</code> using its value
+    * For this to work accurately, the E class should override the equals method
+    * @param element the element to be removed
+    * @return the removed element or null if not found
+    */
     public E remove(E element){
         for(int i=0; i < size; i++){
             if(items[i].equals(element))
@@ -120,6 +165,11 @@ public class SimpleArrayList<E> implements Iterable<E>{
         return null;
     }
 
+    /**
+    * Get an Iterator for the <code>SimpleArrayList</code>
+    * Required for use with forEach
+    * @return an Iterator of the <code>SimpleArrayList</code>
+    */
     @Override
     public Iterator<E> iterator() {
         //return an iterator. We're using anonymous inner class here.
@@ -145,6 +195,11 @@ public class SimpleArrayList<E> implements Iterable<E>{
         };
     }
 
+    /**
+    * Get a String presentation of the <code>SimpleArrayList</code>
+    * @return a String of the format [item1, item2, ...] Null objects are
+    * represented as "null"
+    */
     @Override
     public String toString() {
         StringJoiner joiner = new StringJoiner(",");
@@ -157,6 +212,10 @@ public class SimpleArrayList<E> implements Iterable<E>{
         return String.format("[%s]", joiner.toString());
     }
 
+    /**
+     * Testing for the <code>SimpleArrayList</code> class
+     * @param args
+     */
     public static void main(String[] args){
         SimpleArrayList<String> cars = new SimpleArrayList<String>();
         cars.add("Volvo");
